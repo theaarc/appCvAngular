@@ -1,0 +1,110 @@
+<div id="comp">
+  <div class="row mt-2">
+      <div class="col">
+         <div class="row mb-4">
+             <h3 class="fw-bold">{{ 'comp.title' | translate }}</h3>
+         </div>
+         <div class="row ">
+           <!-- add ngif to print infos from firebase in a timeline-->
+           <!----timeline-->
+           <ng-template class="w-100" #t>
+              <div id="mydiv" *ngFor="let comp of array">
+                <div *ngIf="comp.id != '' " class="container">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="card">
+                              <div class="card-body">
+                                <i type="button" id="ic" class="fa-solid fa-pen-fancy" (click)="opentextera(mymodal1)" (click)="saveid(comp.id)"></i><br><br>
+                                <i type="button" id="ic" class="fa-solid fa-trash-can" (click)="saveid(comp.id)" (click)="confirm()"></i>
+                                  <div id="content">
+                                      <ul class="timeline">
+                                          <li class="event">
+                                              <h3>{{ 'comp.title1' | translate }} : {{ comp.title }}</h3>
+                                              <p>{{ 'comp.db' | translate }}: {{ comp.dateDebut }}</p>
+                                              <p>{{ 'comp.df' | translate }} : {{ comp.dateFin }}</p>
+                                              <p>{{ 'comp.pert' | translate }} {{ comp.percentage }}% <progress max="100" value="{{comp.percentage}}"></progress></p>
+                                              <p>{{ 'comp.cat' | translate }} : {{ comp.cathegory }}</p>
+                                          </li>
+                                      </ul>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+             </div>
+           </ng-template>
+
+           <!---**********-->
+           <!-----**************print this else*********-->
+          <div *ngIf="array.length == 1; else t">
+           <h4 style="text-align:center;color: red;">
+            {{ 'msg.datamsg1' | translate }}
+           </h4>
+           <h5 style="text-align:center">
+            {{ 'msg.datamsg2' | translate }}
+           </h5>
+           <p style="text-align:center">
+            {{ 'msg.datamsg3' | translate }}
+           </p>
+          </div>
+         </div>
+         <span style="float: right;"><i class="fa-solid fa-marker" type="button" (click)="opentextera(mymodal)">{{ 'msg.addb' | translate }}</i></span>
+         <div>
+         </div>
+      </div>
+  </div>
+</div>
+
+<!---******************modals****************************--->
+<ng-template #mymodal let-modal>
+<div class="modal-header">
+ <h4 class="modal-title" id="modal-basic-title">{{ 'msg.itemadd' | translate }}</h4>
+ <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+   <span aria-hidden="true">×</span>
+ </button>
+</div>
+<div class="modal-body">
+ <div class="form-outline w-100">
+  <input type="text" class="form-control" id="title" placeholder="{{ 'comp.title1' | translate }}"><br>
+  <input type="number" class="form-control" id="percentage" placeholder="80"><br>
+  <input type="date" class="form-control" id="datedeb"><br>
+  <input type="date" class="form-control" id="datefin"><br>
+  <label for="cars">{{ 'comp.cat' | translate }}: </label>
+  <select id="cathegory" class="form-control">
+    <option value="Programmation">Programmation</option>
+    <option value="web_design">web_design</option>
+    <option value="manager">manager</option>
+  </select>
+ </div>
+</div>
+<div class="modal-footer">
+ <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')" (click)="addcomp()">{{ 'msg.itemaddbutton' | translate }}</button>
+</div>
+</ng-template>
+
+<ng-template #mymodal1 let-modal>
+  <div class="modal-header">
+   <h4 class="modal-title" id="modal-basic-title">{{ 'msg.modify' | translate }}</h4>
+   <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+     <span aria-hidden="true">×</span>
+   </button>
+  </div>
+  <div class="modal-body">
+   <div class="form-outline w-100">
+    <input type="text" class="form-control" id="title1" placeholder="{{ 'comp.title1' | translate }}"><br>
+    <input type="number" class="form-control" id="percentage1" placeholder="80"><br>
+    <input type="date" class="form-control" id="datedeb1"><br>
+    <input type="date" class="form-control" id="datefin1"><br>
+    <label for="cars">{{ 'comp.cat' | translate }}:</label>
+    <select id="cathegory1" class="form-control">
+      <option value="Programmation">Programmation</option>
+      <option value="web_design">web_design</option>
+      <option value="manager">manager</option>
+    </select>
+   </div>
+  </div>
+  <div class="modal-footer">
+   <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')" (click)="modifycomp()">{{ 'msg.modifyb' | translate }}</button>
+  </div>
+  </ng-template>
